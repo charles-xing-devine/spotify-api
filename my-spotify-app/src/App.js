@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { getTokenFromUrl } from './components/OAuth';
 import LoginButton from './components/LoginButton';
+import ArtistTracks from './components/ArtistTracks';
 
 function App() {
   useEffect(() => {
@@ -15,7 +16,7 @@ function App() {
   return (
     <div>
       <LoginButton />
-
+      <ArtistTracks />
     </div>
   );
 }
