@@ -10,7 +10,7 @@
   height: 100vh;
   padding: 20px;
   gap: 60px; /* Adds space between text and gallery */
-  background-color: #C8A2C8; /* Pastel red background color */
+  background: linear-gradient(81deg, rgba(176, 182, 232, 1) 0%, rgb(71, 106, 103) 100%);
   overflow: hidden; /* Prevent scrolling on the entire page */
   font-family: 'Lato', sans-serif; /* Apply Lato font to the entire page */
 }

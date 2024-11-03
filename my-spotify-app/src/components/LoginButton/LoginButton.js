@@ -1,32 +1,41 @@
+//LoginButton.js
+
+
 import React, { useState, useEffect } from 'react';
-import { login, fetchUserProfile, getTokenFromUrl } from '../Auth/OAuth';
+import { login, fetchUserProfile } from '../Auth/OAuth';
 import { useNavigate } from 'react-router-dom';
 import './LoginButton.css';
 
 const LoginButton = () => {
   const [userProfile, setUserProfile] = useState(null);
   const navigate = useNavigate();
+  const token = localStorage.getItem('spotifyAccessToken'); //checking if our token is in our localStorage
+  console.log("Token retrieved from localStorage for profile fetch:", token); // Log the token used
+
 
   useEffect(() => {
-    const token = getTokenFromUrl();
-    if (token) {
-      localStorage.setItem('spotifyAccessToken', token);
-      fetchUserProfile(token).then(profile => {
-        setUserProfile(profile);
+    if (token && !userProfile) {
+      //fetch
+      fetchUserProfile(token)
+      .then(profile => {setUserProfile(profile);
       }).catch(err => {
         console.error('Error fetching user profile:', err);
       });
     }
-  }, []);
+  }, [token, userProfile]);
+
+  //Redirect user to Spotify AUTH
 
   const handleLogin = () => {
     login();
   };
 
+
+
   const handleLogout = () => {
     localStorage.removeItem('spotifyAccessToken');
     setUserProfile(null);
-    navigate('/welcome');
+    navigate('/'); //modified so it brings the user to the welcome
   };
 
   return (

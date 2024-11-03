@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const BASE_URL = 'https://api.spotify.com/v1';
 
+//adding optimized error handling
+
 export const fetchTracksByArtist = async (artistName, token) => {
   try {
     const response = await axios.get(`${BASE_URL}/search`, {
@@ -16,7 +18,11 @@ export const fetchTracksByArtist = async (artistName, token) => {
     });
     return response.data.tracks.items;
   } catch (error) {
-    console.error('Error fetching tracks by artist:', error);
+    if (error.response && error.response.status === 401) {
+      alert("Your session has expired. Please log in again.");
+    } else {
+      console.error('Error fetching tracks by artist:', error);
+    }
     return [];
   }
 };
