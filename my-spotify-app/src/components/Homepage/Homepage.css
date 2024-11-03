@@ -1,0 +1,53 @@
+/* src/pages/Homepage.css */
+
+/* Import Lato font */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+body, .App {
+  background: rgb(12,14,66);
+  background: linear-gradient(81deg, rgba(12,14,66,1) 0%, rgba(68,85,83,1) 100%);
+  color: #ffffff;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Lato', sans-serif; /* Apply Lato font */
+  position: relative;
+  overflow: hidden;
+}
+
+.container-fixed {
+  height: 100vh;
+  overflow: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.app-title {
+  font-size: 3.5rem;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.app-description-container {
+  color: #b0b0b0;
+}
+
+.buttons .btn {
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 0.5rem 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  font-family: 'Lato', sans-serif; /* Apply Lato font to buttons */
+}
+
+.buttons .btn-primary {
+  background-color: #c2cc69; 
+  color: #000000;
+  border: none;
+}
+
+.buttons .btn-secondary {
+  background-color: #6a5acd;
+  color: #ffffff;
+  border: none;
+}
