@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { fetchTracksByArtist } from './SpotifyService';
+import { fetchRecommendationsByArtist } from './SpotifyService';
 import './Dashboard.css';
 
 const ArtistTracks = () => {
   const [tracks, setTracks] = useState([]);
   const [artist, setArtist] = useState('');
-  const token = localStorage.getItem('spotifyAccessToken');  // Standardized key
+  const token = localStorage.getItem('spotifyAccessToken'); // Standardized key
 
   const handleSearch = async () => {
     if (!token) {
       alert('No token found. Please log in.');
       return;
     }
-    const fetchedTracks = await fetchTracksByArtist(artist, token);
-    setTracks(fetchedTracks);
+    const recommendedTracks = await fetchRecommendationsByArtist(artist, token);
+    setTracks(recommendedTracks);
   };
 
   const handleKeyPress = (event) => {
@@ -42,8 +42,8 @@ const ArtistTracks = () => {
         <button className="dashboard-button">Use your Spotify data</button>
       </div>
       <ul>
-        {tracks.map(track => (
-          <li key={track.id}>{track.name}</li>
+        {tracks.map((track, index) => (
+          <li key={track.id || index}>{track.name} - {track.artists.map(artist => artist.name).join(', ')}</li>
         ))}
       </ul>
     </div>
