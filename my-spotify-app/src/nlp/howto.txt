@@ -29,5 +29,5 @@ python app.py
 should access on : 
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 
-test it with CURL or Postman
+To test API results --test it with CURL  on terminal or Postman
 
