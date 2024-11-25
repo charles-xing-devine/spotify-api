@@ -1,63 +1,87 @@
 .dashboard-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: linear-gradient(81deg, rgba(12,14,66,1) 0%, rgba(68,85,83,1) 100%);
-    color: #ffffff;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  height: auto; /* Adjusted height */
+  background: transparent;
+  color: #ffffff;
+}
 
-  .dashboard-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
+.input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
 
-  .input-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 30px;
-  }
+.input-field {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px 0 0 25px;
+  outline: none;
+  width: 300px;
+  color: #fff;
+  background-color: #9999ca;
+}
 
-  .input-field {
-    padding: 10px 15px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 25px 0 0 25px;
-    outline: none;
-    width: 300px;
-    color: #fff;
-    background-color: #2b2b53;
-  }
+.submit-button {
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  background-color: transparent;
+  color: #c0c0ff;
+  border-radius: 0 25px 25px 0;
+  cursor: pointer;
+}
 
-  .submit-button {
-    padding: 10px;
-    font-size: 1rem;
-    border: none;
-    background-color: #3b3b6d;
-    color: #c0c0ff;
-    border-radius: 0 25px 25px 0;
-    cursor: pointer;
-  }
+.button-container {
+  display: flex;
+  gap: 15px;
+}
 
-  .button-container {
-    display: flex;
-    gap: 15px;
-    background-color: transparent;
-  }
+.dashboard-button {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  color: #c0c0ff;
+  background-color: transparent;
+  border: 1px solid #3b3b6d;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-  .dashboard-button {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-    color: #c0c0ff;
-    background-color: transparent;
-    border: 1px solid #3b3b6d;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
+.dashboard-button:hover {
+  background-color: #303054;
+}
 
-  .dashboard-button:hover {
-    background-color: #3b3b6d;
-  }
+/* New styles for track list */
+ul {
+  list-style-type: none; 
+  padding: 0;
+  margin: 0;
+  width: 100%; 
+  max-width: 600px;
+  text-align: center; 
+  height: 300px; /* Fixed height */
+  overflow-y: auto;
+  max-height: 300px; 
+  border: 1px solid transparent;
+  border-radius: 10px; /* Rounded edges */
+  background-color: #1a1a3d; /* Slight background for better readability */
+}
+
+li {
+  padding: 10px;
+  border-bottom: 1px solid #3b3b6d;
+  color: #c0c0ff;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+li:hover {
+  background-color: #303054; 
+}

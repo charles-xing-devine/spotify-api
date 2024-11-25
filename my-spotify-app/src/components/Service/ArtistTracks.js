@@ -24,7 +24,6 @@ const ArtistTracks = () => {
 
   return (
     <div className="dashboard-container">
-      <h1 className="dashboard-title">Welcome to App Name.</h1>
       <div className="input-container">
         <input
           type="text"
@@ -36,16 +35,16 @@ const ArtistTracks = () => {
         />
         <button onClick={handleSearch} className="submit-button">↑</button>
       </div>
-      <div className="button-container">
-        <button className="dashboard-button">Make me a playlist</button>
-        <button className="dashboard-button">Give me a genre</button>
-        <button className="dashboard-button">Use your Spotify data</button>
-      </div>
-      <ul>
-        {tracks.map((track, index) => (
-          <li key={track.id || index}>{track.name} - {track.artists.map(artist => artist.name).join(', ')}</li>
-        ))}
-      </ul>
+      {/* Conditionally render the track list */}
+      {tracks.length > 0 && (
+        <ul>
+          {tracks.map((track, index) => (
+            <li key={track.id || index}>
+              {track.name} - {track.artists.map(artist => artist.name).join(', ')}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
