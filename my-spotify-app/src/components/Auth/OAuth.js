@@ -1,21 +1,34 @@
-const CLIENT_ID = '764e0602648144eeb78bb38a956d7824';
+//const CLIENT_ID = '764e0602648144eeb78bb38a956d7824';
+const CLIENT_ID = '7653be98ff5044428dd180104f730448';
 const REDIRECT_URI = 'http://localhost:3000/callback'; // Ensure this is consistent
 const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
 const RESPONSE_TYPE = 'token';
-const SCOPE = 'user-library-read';
+const SCOPE = 'user-read-private user-library-read';
+
+
 
 export const getAuthUrl = () => {
   return `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
 };
 
+
 export const getTokenFromUrl = () => {
   const hash = window.location.hash;
+  console.log("Full URL Hash:", hash); // Log the full hash
+  
   window.location.hash = "";  // Clear hash for security
   const token = hash
     .substring(1)
     .split("&")
     .find(elem => elem.startsWith("access_token"))
     ?.split("=")[1];
+
+
+    console.log("Parsed access token:", token); // Debugging line
+
+    window.location.hash = ""; // Clear hash for security
+  
+
   return token;
 };
 
@@ -24,7 +37,7 @@ export const login = () => {
 };
 
 // Fetch the user profile with the access token
-export const fetchUserProfile = async (token: string) => {
+export const fetchUserProfile = async (token) => {
   try {
     const response = await fetch('https://api.spotify.com/v1/me', {
       headers: {

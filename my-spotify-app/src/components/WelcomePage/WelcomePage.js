@@ -55,7 +55,7 @@ const WelcomePage = () => {
     <div className="welcome-page">
       <div className="welcome-text">
         <h1>Welcome to Spotify API</h1>
-        <p>Learn more about your music taste and compare it to others with Obscurify.</p>
+        <p>Learn more about your music taste and compare it to others with our App.</p>
         <LoginButton />
       </div>
       <div className="album-gallery">
@@ -64,7 +64,7 @@ const WelcomePage = () => {
         ))}
         {/* Duplicate the content again for a seamless scroll */}
         {duplicatedCovers.map((cover, index) => (
-          <img key={`${index}-duplicate`} src={cover} alt="Album Cover" className="album-cover" />
+          <img key={`${index}-duplicate`} src={cover} alt="Album Cover" className="album-cover" loading="lazy"/>
         ))}
       </div>
     </div>
