@@ -63,6 +63,7 @@ const WelcomePage = () => {
           <img key={index} src={cover} alt="Album Cover" className="album-cover" />
         ))}
         {/* Duplicate the content again for a seamless scroll */}
+         {/* adding some laze rendering to improve performance */}
         {duplicatedCovers.map((cover, index) => (
           <img key={`${index}-duplicate`} src={cover} alt="Album Cover" className="album-cover" loading="lazy"/>
         ))}

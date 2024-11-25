@@ -1,5 +1,5 @@
-//const CLIENT_ID = '764e0602648144eeb78bb38a956d7824';
-const CLIENT_ID = '7653be98ff5044428dd180104f730448';
+const CLIENT_ID = '764e0602648144eeb78bb38a956d7824';
+//celeste : const CLIENT_ID = '7653be98ff5044428dd180104f730448';
 const REDIRECT_URI = 'http://localhost:3000/callback'; // Ensure this is consistent
 const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
 const RESPONSE_TYPE = 'token';
@@ -14,7 +14,6 @@ export const getAuthUrl = () => {
 
 export const getTokenFromUrl = () => {
   const hash = window.location.hash;
-  console.log("Full URL Hash:", hash); // Log the full hash
   
   window.location.hash = "";  // Clear hash for security
   const token = hash
@@ -24,7 +23,7 @@ export const getTokenFromUrl = () => {
     ?.split("=")[1];
 
 
-    console.log("Parsed access token:", token); // Debugging line
+    console.log("Parsed access token:", token); //debugging
 
     window.location.hash = ""; // Clear hash for security
   
@@ -33,10 +32,11 @@ export const getTokenFromUrl = () => {
 };
 
 export const login = () => {
-  window.location.href = getAuthUrl();  // Redirect to Spotify's authorization page
+  window.location.href = getAuthUrl();  // brings user to auth
 };
 
 // Fetch the user profile with the access token
+//also fixed some syntax
 export const fetchUserProfile = async (token) => {
   try {
     const response = await fetch('https://api.spotify.com/v1/me', {

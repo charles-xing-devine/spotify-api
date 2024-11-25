@@ -35,7 +35,7 @@ const LoginButton = () => {
   const handleLogout = () => {
     localStorage.removeItem('spotifyAccessToken');
     setUserProfile(null);
-    navigate('/'); //modified so it brings the user to the welcome
+    navigate('/'); //modified so it brings the user to the welcome :)
   };
 
   return (

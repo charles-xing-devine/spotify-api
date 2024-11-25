@@ -63,7 +63,7 @@
 }
 
 
-/*for smaller screens */
+/*for smaller screens or resize */
 
 @media (max-width : 768px){
   .welcome-page{
