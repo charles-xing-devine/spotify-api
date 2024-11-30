@@ -1,42 +1,32 @@
-const CLIENT_ID = '764e0602648144eeb78bb38a956d7824';
-//celeste : const CLIENT_ID = '7653be98ff5044428dd180104f730448';
-const REDIRECT_URI = 'http://localhost:3000/callback'; // Ensure this is consistent
+const CLIENT_ID = '764e0602648144eeb78bb38a956d7824'; // Your client ID
+const REDIRECT_URI = 'http://localhost:3000/callback'; // Your redirect URI
 const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
 const RESPONSE_TYPE = 'token';
 const SCOPE = 'user-read-private user-library-read';
 
-
-
+// Generates the Spotify Authorization URL
 export const getAuthUrl = () => {
   return `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
 };
 
-
+// Extracts the token from the URL hash
 export const getTokenFromUrl = () => {
-  const hash = window.location.hash;
-  
-  window.location.hash = "";  // Clear hash for security
+  const hash = window.location.hash.substring(1); // Get everything after #
   const token = hash
-    .substring(1)
-    .split("&")
-    .find(elem => elem.startsWith("access_token"))
-    ?.split("=")[1];
+    .split('&')
+    .find((elem) => elem.startsWith('access_token'))
+    ?.split('=')[1];
 
-
-    console.log("Parsed access token:", token); //debugging
-
-    window.location.hash = ""; // Clear hash for security
-  
-
+  window.location.hash = ''; // Clear the hash from URL for security
   return token;
 };
 
+// Initiates the Spotify login process
 export const login = () => {
-  window.location.href = getAuthUrl();  // brings user to auth
+  window.location.href = getAuthUrl(); // Redirect to Spotify Auth URL
 };
 
-// Fetch the user profile with the access token
-//also fixed some syntax
+// Fetches user profile data using the access token
 export const fetchUserProfile = async (token) => {
   try {
     const response = await fetch('https://api.spotify.com/v1/me', {
@@ -44,12 +34,14 @@ export const fetchUserProfile = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
+
     if (!response.ok) {
-      throw new Error("Failed to fetch user profile");
+      throw new Error('Failed to fetch user profile');
     }
-    return await response.json();
+
+    return await response.json(); // Parse response as JSON
   } catch (error) {
-    console.error("Error fetching user profile:", error);
+    console.error('Error fetching user profile:', error);
     throw error;
   }
 };
