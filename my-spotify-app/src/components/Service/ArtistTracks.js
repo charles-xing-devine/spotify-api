@@ -1,51 +1,92 @@
 import React, { useState } from 'react';
-import { fetchRecommendationsByArtist } from './SpotifyService';
+import { fetchSongsByEmotion } from './SpotifyService';
+import axios from 'axios';
 import './Dashboard.css';
 
 const ArtistTracks = () => {
   const [tracks, setTracks] = useState([]);
-  const [artist, setArtist] = useState('');
-  const token = localStorage.getItem('spotifyAccessToken'); // Standardized key
+  const [userInput, setUserInput] = useState(''); // User's input text
+  const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem('spotifyAccessToken');
 
-  const handleSearch = async () => {
-    if (!token) {
-      alert('No token found. Please log in.');
+  const handleAnalyzeEmotion = async () => {
+    if (!userInput) {
+      alert('Please enter a prompt.');
       return;
     }
-    const recommendedTracks = await fetchRecommendationsByArtist(artist, token);
-    setTracks(recommendedTracks);
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      handleSearch();
+  
+    setLoading(true);
+  
+    try {
+      // Call NLP API to analyze emotion
+      const response = await axios.post('http://127.0.0.1:5000/analyze', { text: userInput });
+      console.log('API Response:', response.data); // Log the entire API response
+  
+      // Determine the emotion key based on the response structure
+      const emotion =
+        response.data.input_type === 'single_sentence'
+          ? response.data.emotion
+          : response.data.overall_emotion;
+  
+      console.log('Emotion from NLP API:', emotion);
+  
+      if (!token) {
+        alert('No token found. Please log in.');
+        return;
+      }
+  
+      // Fetch songs based on the analyzed emotion
+      const songs = await fetchSongsByEmotion(`Songs that make me feel ${emotion}`, token);
+      setTracks(songs);
+    } catch (error) {
+      console.error('Error analyzing emotion or fetching songs:', error);
+      if (error.response) {
+        console.error('Response Data:', error.response.data);
+        console.error('Response Status:', error.response.status);
+      }
+    } finally {
+      setLoading(false);
     }
   };
+  
 
   return (
     <div className="dashboard-container">
-      <h1 className="dashboard-title">Welcome to App Name.</h1>
+      <h1 className="dashboard-title">Music recommendations based on Sentimental Analysis Language Model</h1>
       <div className="input-container">
         <input
           type="text"
-          value={artist}
-          onChange={(e) => setArtist(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="How do you feel today?"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          placeholder="Enter a prompt (e.g., 'I am feeling great today!')"
           className="input-field"
         />
-        <button onClick={handleSearch} className="submit-button">↑</button>
+        <button onClick={handleAnalyzeEmotion} className="submit-button">Analyze and Search</button>
       </div>
-      <div className="button-container">
-        <button className="dashboard-button">Make me a playlist</button>
-        <button className="dashboard-button">Give me a genre</button>
-        <button className="dashboard-button">Use your Spotify data</button>
+      {loading && <p>Loading songs...</p>}
+      <div className="results-container">
+        {tracks.length === 0 && !loading ? (
+          <p>No songs found. Try entering another prompt.</p>
+        ) : (
+          <div className="track-list">
+            {tracks.map((track) => (
+              <div key={track.id} className="track-item">
+                <img
+                  src={track.album.images[0]?.url}
+                  alt={track.name}
+                  className="track-album-cover"
+                />
+                <div className="track-info">
+                  <h3 className="track-name">{track.name}</h3>
+                  <p className="track-artist">
+                    {track.artists.map((artist) => artist.name).join(', ')}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-      <ul>
-        {tracks.map((track, index) => (
-          <li key={track.id || index}>{track.name} - {track.artists.map(artist => artist.name).join(', ')}</li>
-        ))}
-      </ul>
     </div>
   );
 };
