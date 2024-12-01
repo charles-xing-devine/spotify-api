@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createPlaylist, addTracksToPlaylist } from '../Service/SpotifyService';
+import './SavePlaylist.css'; // Import the updated CSS
 
 const SavePlaylist = ({ tracks, token, userId }) => {
   const [playlistName, setPlaylistName] = useState('');
@@ -26,6 +27,7 @@ const SavePlaylist = ({ tracks, token, userId }) => {
       const playlist = await createPlaylist(token, userId, playlistName);
       const trackUris = tracks.map((track) => track.uri);
       await addTracksToPlaylist(token, playlist.id, trackUris);
+
       setSuccessMessage(`Playlist "${playlistName}" created successfully!`);
     } catch (error) {
       console.error('Error saving playlist:', error);
@@ -37,6 +39,10 @@ const SavePlaylist = ({ tracks, token, userId }) => {
 
   return (
     <div className="save-playlist-container">
+    <p className="playlist-instructions">
+      Like the songs? Save them to your Spotify playlist below!
+    </p>
+    <div className="input-group">
       <input
         type="text"
         value={playlistName}
@@ -44,13 +50,20 @@ const SavePlaylist = ({ tracks, token, userId }) => {
         placeholder="Enter playlist name"
         className="input-field"
       />
-      <button onClick={handleSavePlaylist} className="submit-button" disabled={saving}>
+      <button
+        onClick={handleSavePlaylist}
+        className="submit-button"
+        disabled={saving}
+      >
         {saving ? 'Saving...' : 'Save Playlist'}
       </button>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
     </div>
-  );
+    {errorMessage && <div className="alert alert-error">{errorMessage}</div>}
+    {successMessage && (
+      <div className="alert alert-success">{successMessage}</div>
+    )}
+  </div>
+);
 };
 
 export default SavePlaylist;

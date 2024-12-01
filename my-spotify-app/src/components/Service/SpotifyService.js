@@ -47,40 +47,54 @@ export const fetchSongsByEmotion = async (query, token) => {
 };
 
 export const createPlaylist = async (accessToken, userId, playlistName) => {
-  const response = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      name: playlistName,
-      public: false,
-    }),
-  });
+  try {
+    const response = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: playlistName,
+        public: false,
+      }),
+    });
 
-  if (!response.ok) {
-    throw new Error('Failed to create playlist');
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      console.error('Create Playlist Error:', errorDetails);
+      throw new Error(`Failed to create playlist: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Create Playlist Error:', error.message);
+    throw error;
   }
-
-  return response.json(); // Returns playlist details
 };
 
 export const addTracksToPlaylist = async (accessToken, playlistId, trackUris) => {
-  const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      uris: trackUris,
-    }),
-  });
+  try {
+    const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        uris: trackUris,
+      }),
+    });
 
-  if (!response.ok) {
-    throw new Error('Failed to add tracks to playlist');
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      console.error('Add Tracks Error:', errorDetails);
+      throw new Error(`Failed to add tracks to playlist: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Add Tracks Error:', error);
+    throw error;
   }
-
-  return response.json();
 };

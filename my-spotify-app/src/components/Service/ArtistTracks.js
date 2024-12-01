@@ -5,11 +5,11 @@ import SavePlaylist from '../SavePlaylist/SavePlaylist';
 import './Dashboard.css';
 
 const ArtistTracks = () => {
-  const [tracks, setTracks] = useState([]);
-  const [userInput, setUserInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem('spotifyAccessToken');
-  const userId = localStorage.getItem('spotifyUserId');
+  const [tracks, setTracks] = useState([]); // Tracks fetched based on emotion
+  const [userInput, setUserInput] = useState(''); // User input for emotion analysis
+  const [loading, setLoading] = useState(false); // Loading state
+  const token = localStorage.getItem('spotifyAccessToken'); // Spotify access token
+  const userId = localStorage.getItem('spotifyUserId'); // Spotify user ID
 
   const handleAnalyzeEmotion = async () => {
     if (!userInput) {
@@ -20,6 +20,7 @@ const ArtistTracks = () => {
     setLoading(true);
 
     try {
+      // Analyze user input to determine emotion
       const response = await axios.post('http://127.0.0.1:5000/analyze', { text: userInput });
       const emotion =
         response.data.input_type === 'single_sentence'
@@ -31,6 +32,7 @@ const ArtistTracks = () => {
         return;
       }
 
+      // Fetch songs matching the emotion
       const songs = await fetchSongsByEmotion(`Songs that make me feel ${emotion}`, token);
       setTracks(songs);
     } catch (error) {
@@ -51,7 +53,9 @@ const ArtistTracks = () => {
           placeholder="Enter a prompt (e.g., 'I am feeling great today!')"
           className="input-field"
         />
-        <button onClick={handleAnalyzeEmotion} className="submit-button">Analyze and Search</button>
+        <button onClick={handleAnalyzeEmotion} className="submit-button">
+          Analyze and Search
+        </button>
       </div>
       {loading && <p>Loading songs...</p>}
       <div className="results-container">
@@ -78,6 +82,7 @@ const ArtistTracks = () => {
                 ))}
               </div>
             </div>
+            {/* SavePlaylist component for saving fetched tracks */}
             <SavePlaylist tracks={tracks} token={token} userId={userId} />
           </>
         )}

@@ -1,9 +1,9 @@
-const CLIENT_ID = '764e0602648144eeb78bb38a956d7824'; // Your client ID
+const CLIENT_ID = '1d4b3733e4554c99a31987ea900702cd'; // Your client ID
 const REDIRECT_URI = 'http://localhost:3000/callback'; // Your redirect URI
 const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
 const RESPONSE_TYPE = 'token';
-const SCOPE = 'user-read-private user-library-read user-top-read playlist-modify-public playlist-modify-private';
-
+const SCOPE =
+  'user-read-private user-library-read user-top-read playlist-modify-public playlist-modify-private';
 
 // Generates the Spotify Authorization URL
 export const getAuthUrl = () => {
@@ -40,9 +40,14 @@ export const fetchUserProfile = async (token) => {
       throw new Error('Failed to fetch user profile');
     }
 
-    return await response.json(); // Parse response as JSON
+    const profile = await response.json(); // Parse response as JSON
+
+    // Save the user ID to localStorage
+    localStorage.setItem('spotifyUserId', profile.id); // Save userId
+    return profile;
   } catch (error) {
     console.error('Error fetching user profile:', error);
     throw error;
   }
 };
+
