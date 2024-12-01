@@ -3,13 +3,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Start at the top */
-  height: 100vh; /* Full viewport height */
-  background: linear-gradient(81deg, #fae1ee 0%, #f9f9f9 100%);
-  color: #333333; /* Dark text for contrast */
-  padding-top: 20px; /* Add some space at the top */
-  margin-left: 200px;
-  margin-right: 200px;
+  justify-content: flex-start;
+  height: auto; /* Adjust height dynamically */
+  max-width: 600px; /* Set a maximum width for the container */
+  margin: 50px auto; /* Center the container with clear margins */
+  padding: 20px;
+  border: 2px solid #444444; /* Add a clear outline */
+  border-radius: 10px; /* Optional rounded corners */
+  background: #fff7f8; /* Light pastel pink color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
 .dashboard-title {

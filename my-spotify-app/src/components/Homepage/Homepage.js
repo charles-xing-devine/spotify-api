@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import LoginButton from '../LoginButton/LoginButton';
 import ArtistTracks from '../Service/ArtistTracks';
+import Dashboard from './Dashboard'; // Import Dashboard component
 import { getTokenFromUrl } from '../Auth/OAuth';
 import './Homepage.css';
 
@@ -16,7 +17,7 @@ const Homepage = () => {
 
   return (
     <div>
-      <LoginButton />
+      <Dashboard />
       <ArtistTracks />
     </div>
   );
