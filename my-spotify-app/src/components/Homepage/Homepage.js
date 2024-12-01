@@ -3,12 +3,18 @@ import Dashboard from './Dashboard';
 import Container from './container';
 import ArtistTracks from '../Service/ArtistTracks';
 import { fetchUserProfile } from '../Auth/OAuth';
+import SongsByArtist from '../Service/SongsByArtists';
+import SongsByGenre from '../Service/SongsByGenre';
 import './Homepage.css';
 
 const Homepage = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
+  const [showInput, setShowInput] = useState(false);
+  const [showSongsByArtist, setShowSongsByArtist] = useState(false);
+  const [showSongsByGenre, setShowSongsByGenre] = useState(false); // New state for SongsByGenre
+  const [showContainer, setShowContainer] = useState(true);
 
   useEffect(() => {
     const hash = window.location.hash.substring(1).split('&').reduce((acc, item) => {
@@ -64,25 +70,43 @@ const Homepage = () => {
         <div className="button-group">
           <button
             className="action-button"
-            onClick={() => alert('Moods functionality not implemented yet.')}
+            onClick={() => {
+              setShowInput(true);
+              setShowSongsByArtist(false);
+              setShowSongsByGenre(false);
+              setShowContainer(false);
+            }}
           >
             Moods
           </button>
           <button
             className="action-button"
-            onClick={() => alert('Artists functionality not implemented yet.')}
+            onClick={() => {
+              setShowSongsByArtist(true);
+              setShowInput(false);
+              setShowSongsByGenre(false);
+              setShowContainer(false);
+            }}
           >
             Artists
           </button>
           <button
             className="action-button"
-            onClick={() => alert('Genres functionality not implemented yet.')}
+            onClick={() => {
+              setShowSongsByGenre(true);
+              setShowInput(false);
+              setShowSongsByArtist(false);
+              setShowContainer(false);
+            }}
           >
             Genres
           </button>
         </div>
 
-        <Container accessToken={accessToken} />
+        {showInput && <ArtistTracks />}
+        {showSongsByArtist && <SongsByArtist token={accessToken} />}
+        {showSongsByGenre && <SongsByGenre token={accessToken} />}
+        {showContainer && <Container accessToken={accessToken} />}
       </main>
     </div>
   );
