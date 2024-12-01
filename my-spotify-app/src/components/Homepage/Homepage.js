@@ -13,7 +13,11 @@ const Homepage = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [showInput, setShowInput] = useState(false);
   const [showSongsByArtist, setShowSongsByArtist] = useState(false);
+<<<<<<< HEAD
   const [showSongsByGenre, setShowSongsByGenre] = useState(false); //genre
+=======
+  const [showSongsByGenre, setShowSongsByGenre] = useState(false); // New state for SongsByGenre
+>>>>>>> origin/merged-branch
   const [showContainer, setShowContainer] = useState(true);
 
   useEffect(() => {
