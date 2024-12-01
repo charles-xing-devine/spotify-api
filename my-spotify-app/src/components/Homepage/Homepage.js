@@ -48,7 +48,7 @@ const Homepage = () => {
     localStorage.removeItem('spotifyAccessToken');
     setUserProfile(null);
     setAccessToken(null);
-    window.location.href = '/'; // Redirect to the welcome page
+    window.location.href = '/'; // Redirect to the Welcome Page.js . 
   };
 
   return (
