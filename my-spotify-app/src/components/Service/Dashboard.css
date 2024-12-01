@@ -1,87 +1,89 @@
-.dashboard-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  height: auto; /* Adjusted height */
-  background: transparent;
-  color: #ffffff;
-}
-
-.input-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #444444;
 }
 
 .input-field {
   padding: 10px 15px;
   font-size: 1rem;
-  border: none;
+  border: 1px solid #fae1ee; /* Border for definition */
   border-radius: 25px 0 0 25px;
   outline: none;
   width: 300px;
-  color: #fff;
-  background-color: #9999ca;
+  color: #333333;
+  background-color: #f7f7f7;
 }
 
 .submit-button {
   padding: 10px;
   font-size: 1rem;
   border: none;
-  background-color: transparent;
-  color: #c0c0ff;
+  background-color: #e6e6e6;
+  color: #333333;
   border-radius: 0 25px 25px 0;
   cursor: pointer;
 }
 
-.button-container {
-  display: flex;
-  gap: 15px;
-}
-
-.dashboard-button {
-  padding: 10px 20px;
-  font-size: 0.9rem;
-  color: #c0c0ff;
-  background-color: transparent;
-  border: 1px solid #3b3b6d;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.dashboard-button:hover {
-  background-color: #303054;
-}
-
-/* New styles for track list */
-ul {
-  list-style-type: none; 
-  padding: 0;
-  margin: 0;
-  width: 100%; 
-  max-width: 600px;
-  text-align: center; 
-  height: 300px; /* Fixed height */
-  overflow-y: auto;
-  max-height: 300px; 
-  border: 1px solid transparent;
-  border-radius: 10px; /* Rounded edges */
-  background-color: #1a1a3d; /* Slight background for better readability */
-}
-
-li {
+.scrollable-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  height: 750px; /* Adjust height to fit 5-6 results */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #e6e6e6; /* Optional: to visually differentiate the container */
   padding: 10px;
-  border-bottom: 1px solid #3b3b6d;
-  color: #c0c0ff;
+  border-radius: 8px;
+  background-color: #f7f7f7; /* Optional background for the container */
+  margin-bottom: 100px;
 }
 
-li:last-child {
-  border-bottom: none;
+.track-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
 }
 
-li:hover {
-  background-color: #303054; 
+.track-item {
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  padding: 10px;
+  width: 48%; /* Two items per row */
+  color: #333333;
+  transition: transform 0.2s ease-in-out;
+}
+
+.track-item:hover {
+  transform: scale(1.05); /* Hover effect */
+}
+
+.track-album-cover {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  margin-right: 15px;
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.track-name {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333333;
+}
+
+.track-artist {
+  font-size: 0.9rem;
+  color: #555555;
+}
+
+.results-container {
+  margin-top: 50px; /* Adds 50px margin between input bar and track list */
 }

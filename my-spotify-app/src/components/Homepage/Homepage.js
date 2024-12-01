@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import LoginButton from '../LoginButton/LoginButton';
+import Dashboard from './Dashboard'; // Import Dashboard component
+import UserStats from '../Service/UserStats';
 import ArtistTracks from '../Service/ArtistTracks';
 import { fetchUserProfile, getAuthUrl } from '../Auth/OAuth';
 import './Homepage.css';
@@ -50,6 +51,8 @@ const Homepage = () => {
 
   return (
     <div className="homepage-container">
+      <Dashboard />
+      <UserStats />
       <header className="header">
         {userProfile ? (
           <div className="profile-section">
@@ -66,13 +69,13 @@ const Homepage = () => {
             )}
           </div>
         ) : (
-          !isLoading && <LoginButton />
+          !isLoading
         )}
       </header>
 
       <main className="main-content">
         <h1 className="app-title">
-          Welcome {userProfile ? `${userProfile.display_name}` : 'to App Name!'}
+          Welcome {userProfile ? `${userProfile.display_name}` : 'to Moodify!'}
         </h1>
 
         {isLoading && <p>Loading your profile...</p>}
@@ -82,19 +85,19 @@ const Homepage = () => {
             className="action-button"
             onClick={() => setShowInput(true)}
           >
-            Generate Music
+            Moods
           </button>
           <button
             className="action-button"
             onClick={() => alert('Analytics feature is not implemented yet!')}
           >
-            See My Analytics
+            Artists
           </button>
           <button
             className="action-button"
             onClick={() => alert('Sharing feature is not implemented yet!')}
           >
-            Share My Data
+            Genres
           </button>
         </div>
 

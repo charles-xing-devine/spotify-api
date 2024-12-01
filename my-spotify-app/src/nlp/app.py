@@ -4,11 +4,14 @@ from collections import Counter
 import nltk
 nltk.download('punkt')
 
+from flask_cors import CORS
+
 # Ensure NLTK punkt tokenizer is available
 nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
 
 app = Flask(__name__)
+CORS(app)
 
 # Load the NLP model
 emotion_classifier = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base")

@@ -54,8 +54,8 @@ const WelcomePage = () => {
   return (
     <div className="welcome-page">
       <div className="welcome-text">
-        <h1>Welcome to Spotify API</h1>
-        <p>Learn more about your music taste and compare it to others with our App.</p>
+        <h1>Welcome to Moodify</h1>
+        <p>Discover your unique music taste and see how it stacks up against others! Our app combines Sentiment Analysis and Audio Feature machine learning to recommend the perfect tracks for you.</p>
         <LoginButton />
       </div>
       <div className="album-gallery">
