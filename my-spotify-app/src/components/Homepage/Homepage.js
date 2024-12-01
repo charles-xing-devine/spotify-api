@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Dashboard from './Dashboard'; // Import Dashboard component
+import Dashboard from './Dashboard';
 import Container from './container';
 import ArtistTracks from '../Service/ArtistTracks';
+import SongsByArtist from '../Service/SongsByArtists';
+import SongsByGenre from '../Service/SongsByGenre';
 import { fetchUserProfile } from '../Auth/OAuth';
 import './Homepage.css';
 
@@ -10,7 +12,9 @@ const Homepage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showInput, setShowInput] = useState(false);
-  const [showContainer, setShowContainer] = useState(true); // New state to manage container visibility
+  const [showSongsByArtist, setShowSongsByArtist] = useState(false);
+  const [showSongsByGenre, setShowSongsByGenre] = useState(false); // New state for SongsByGenre
+  const [showContainer, setShowContainer] = useState(true);
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -20,7 +24,7 @@ const Homepage = () => {
       return acc;
     }, {});
 
-    const token = hash.access_token || localStorage.getItem('spotifyAccessToken'); // Check hash and localStorage
+    const token = hash.access_token || localStorage.getItem('spotifyAccessToken');
 
     if (token) {
       if (!localStorage.getItem('spotifyAccessToken')) {
@@ -51,7 +55,7 @@ const Homepage = () => {
     localStorage.removeItem('spotifyAccessToken');
     setUserProfile(null);
     setAccessToken(null);
-    window.location.href = '/'; // Redirect to the homepage
+    window.location.href = '/';
   };
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
@@ -91,26 +95,40 @@ const Homepage = () => {
             className="action-button"
             onClick={() => {
               setShowInput(true);
-              setShowContainer(false); // Hide container on "Mood" click
+              setShowSongsByArtist(false);
+              setShowSongsByGenre(false);
+              setShowContainer(false);
             }}
           >
             Moods
           </button>
           <button
             className="action-button"
-            onClick={() => alert('Artists is not implemented yet!')}
+            onClick={() => {
+              setShowSongsByArtist(true);
+              setShowInput(false);
+              setShowSongsByGenre(false);
+              setShowContainer(false);
+            }}
           >
             Artists
           </button>
           <button
             className="action-button"
-            onClick={() => alert('Genres is not implemented yet!')}
+            onClick={() => {
+              setShowSongsByGenre(true);
+              setShowInput(false);
+              setShowSongsByArtist(false);
+              setShowContainer(false);
+            }}
           >
             Genres
           </button>
         </div>
 
         {showInput && <ArtistTracks />}
+        {showSongsByArtist && <SongsByArtist token={accessToken} />}
+        {showSongsByGenre && <SongsByGenre token={accessToken} />}
         {showContainer && <Container accessToken={accessToken} />}
       </main>
     </div>
