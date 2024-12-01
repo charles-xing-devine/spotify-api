@@ -10,6 +10,7 @@ const Homepage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showInput, setShowInput] = useState(false);
+  const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
     const hash = window.location.hash.substring(1).split('&').reduce((acc, item) => {
@@ -18,11 +19,14 @@ const Homepage = () => {
       return acc;
     }, {});
 
-    const token = hash.access_token;
+    const token = hash.access_token || localStorage.getItem('spotifyAccessToken'); // Check hash and localStorage
 
     if (token) {
       // Store the token in localStorage and clear the hash
-      localStorage.setItem('spotifyAccessToken', token);
+      if (!localStorage.getItem('spotifyAccessToken')) {
+        localStorage.setItem('spotifyAccessToken', token);
+      }
+      setAccessToken(token);
       window.location.hash = '';
 
       // Fetch the user profile
@@ -37,6 +41,7 @@ const Homepage = () => {
           setIsLoading(false);
           alert('Failed to fetch profile. Please log in again.');
           localStorage.removeItem('spotifyAccessToken');
+          setAccessToken(null);
         });
     }
   }, []);
@@ -44,6 +49,7 @@ const Homepage = () => {
   const handleLogout = () => {
     localStorage.removeItem('spotifyAccessToken');
     setUserProfile(null);
+    setAccessToken(null);
     window.location.href = '/'; // Redirect to the homepage
   };
 
@@ -52,7 +58,8 @@ const Homepage = () => {
   return (
     <div className="homepage-container">
       <Dashboard />
-      <UserStats />
+      {/* Pass the accessToken to UserStats */}
+      {accessToken && <UserStats accessToken={accessToken} />}
       <header className="header">
         {userProfile ? (
           <div className="profile-section">
@@ -89,13 +96,13 @@ const Homepage = () => {
           </button>
           <button
             className="action-button"
-            onClick={() => alert('Analytics feature is not implemented yet!')}
+            onClick={() => alert('Artists is not implemented yet!')}
           >
             Artists
           </button>
           <button
             className="action-button"
-            onClick={() => alert('Sharing feature is not implemented yet!')}
+            onClick={() => alert('Genres is not implemented yet!')}
           >
             Genres
           </button>

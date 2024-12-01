@@ -2,7 +2,8 @@ const CLIENT_ID = '764e0602648144eeb78bb38a956d7824'; // Your client ID
 const REDIRECT_URI = 'http://localhost:3000/callback'; // Your redirect URI
 const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
 const RESPONSE_TYPE = 'token';
-const SCOPE = 'user-read-private user-library-read';
+const SCOPE = 'user-read-private user-library-read user-top-read playlist-modify-public playlist-modify-private';
+
 
 // Generates the Spotify Authorization URL
 export const getAuthUrl = () => {

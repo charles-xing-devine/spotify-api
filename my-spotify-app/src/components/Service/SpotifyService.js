@@ -45,3 +45,42 @@ export const fetchSongsByEmotion = async (query, token) => {
     return [];
   }
 };
+
+export const createPlaylist = async (accessToken, userId, playlistName) => {
+  const response = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: playlistName,
+      public: false,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to create playlist');
+  }
+
+  return response.json(); // Returns playlist details
+};
+
+export const addTracksToPlaylist = async (accessToken, playlistId, trackUris) => {
+  const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      uris: trackUris,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to add tracks to playlist');
+  }
+
+  return response.json();
+};

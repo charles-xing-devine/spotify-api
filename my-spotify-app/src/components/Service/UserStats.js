@@ -6,63 +6,74 @@ const UserStats = ({ accessToken }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch user stats (top tracks & top artists)
   useEffect(() => {
     if (!accessToken) {
       setError('No access token provided.');
       return;
     }
 
+    let isMounted = true; // Prevent setting state on unmounted component
+
     const fetchUserStats = async () => {
       setLoading(true);
       setError(null);
-      
-      // Fetch Top Tracks
-      const topTracksResponse = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=5', {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
 
-      if (!topTracksResponse.ok) {
-        setError('Failed to fetch top tracks');
-        setLoading(false);
-        return;
+      try {
+        // Fetch Top Tracks
+        const topTracksResponse = await fetch(
+          'https://api.spotify.com/v1/me/top/tracks?limit=5',
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+
+        if (!topTracksResponse.ok) {
+          const errorDetails = await topTracksResponse.json();
+          console.error('Error fetching top tracks:', errorDetails);
+          throw new Error(`Failed to fetch top tracks: ${topTracksResponse.status}`);
+        }
+
+        const topTracksData = await topTracksResponse.json();
+        if (isMounted) setTopTracks(topTracksData.items);
+
+        // Fetch Top Artists
+        const topArtistsResponse = await fetch(
+          'https://api.spotify.com/v1/me/top/artists?limit=5',
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+
+        if (!topArtistsResponse.ok) {
+          const errorDetails = await topArtistsResponse.json();
+          console.error('Error fetching top artists:', errorDetails);
+          throw new Error(`Failed to fetch top artists: ${topArtistsResponse.status}`);
+        }
+
+        const topArtistsData = await topArtistsResponse.json();
+        if (isMounted) setTopArtists(topArtistsData.items);
+      } catch (err) {
+        console.error('Fetch Error:', err);
+        if (isMounted) setError(err.message || 'An unexpected error occurred');
+      } finally {
+        if (isMounted) setLoading(false);
       }
-
-      const topTracksData = await topTracksResponse.json();
-      setTopTracks(topTracksData.items);
-
-      // Fetch Top Artists
-      const topArtistsResponse = await fetch('https://api.spotify.com/v1/me/top/artists?limit=5', {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!topArtistsResponse.ok) {
-        setError('Failed to fetch top artists');
-        setLoading(false);
-        return;
-      }
-
-      const topArtistsData = await topArtistsResponse.json();
-      setTopArtists(topArtistsData.items);
-
-      setLoading(false);
     };
 
     fetchUserStats();
+
+    return () => {
+      isMounted = false; // Cleanup flag
+    };
   }, [accessToken]);
 
-  // Render loading state or error
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return (
+    <div>
+      <p>Error: {error}</p>
+      {error.includes('401') && <p>Please log in again.</p>}
+    </div>
+  );
 
   return (
     <div>
