@@ -1,4 +1,4 @@
-const CLIENT_ID = '764e0602648144eeb78bb38a956d7824'; // Your client ID
+const CLIENT_ID = '7653be98ff5044428dd180104f730448'; // Your client ID
 const REDIRECT_URI = 'http://localhost:3000/callback'; // Your redirect URI
 const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
 const RESPONSE_TYPE = 'token';

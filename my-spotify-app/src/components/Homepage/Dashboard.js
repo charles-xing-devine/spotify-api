@@ -1,70 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { fetchUserProfile, getTokenFromUrl } from '../Auth/OAuth';
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './Dashboard2.css';
 
-function Dashboard() {
-  const [userProfile, setUserProfile] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = getTokenFromUrl();
-    if (token) {
-      localStorage.setItem('spotifyAccessToken', token);
-      fetchUserProfile(token)
-        .then((profile) => {
-          setUserProfile(profile);
-        })
-        .catch((err) => {
-          console.error('Error fetching user profile:', err);
-        });
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('spotifyAccessToken'); // Remove token from local storage
-    setUserProfile(null); // Reset user profile state
-    navigate('/welcome'); // Redirect to the welcome page
-  };
-
+function Dashboard({ userProfile, handleLogout }) {
   return (
-    <Navbar collapseOnSelect expand="lg" className="hidden-navbar">
+    <Navbar collapseOnSelect expand="lg" className="navbar">
       <Container>
         <Navbar.Brand href="#home">Moodify</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-  
+            <Nav.Link onClick={() => window.location.reload()}>User Statistics</Nav.Link>
           </Nav>
           <Nav>
-          <Nav.Link
-            onClick={() => {
-              window.location.reload(); // Ensure the state resets to show only the container
-            }}
-          >
-            User Statistics
-          </Nav.Link>
-
-            <Nav.Link eventKey={2} onClick={handleLogout}>
-              {userProfile ? (
+            {userProfile && (
+              <>
                 <img
-                  src={userProfile.images[0]?.url}
+                  src={userProfile.images?.[0]?.url || '/placeholder-image.png'}
                   alt="User Profile"
-                  style={{
-                    width: '30px',
-                    height: '30px',
-                    borderRadius: '50%',
-                    marginRight: '10px',
-                    marginLeft: '10px',
-                  }}
+                  className="profile-icon"
                 />
-              ) : (
-                'Logout'
-              )}
-            </Nav.Link>
+                <Nav.Link onClick={handleLogout} className="logout-link">
+                  Logout
+                </Nav.Link>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

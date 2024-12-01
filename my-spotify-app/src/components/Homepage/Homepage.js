@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Dashboard from './Dashboard'; // Import Dashboard component
+import Dashboard from './Dashboard';
 import Container from './container';
 import ArtistTracks from '../Service/ArtistTracks';
 import { fetchUserProfile } from '../Auth/OAuth';
@@ -8,9 +8,6 @@ import './Homepage.css';
 const Homepage = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showInput, setShowInput] = useState(false);
-  const [showContainer, setShowContainer] = useState(true); // New state to manage container visibility
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -20,7 +17,7 @@ const Homepage = () => {
       return acc;
     }, {});
 
-    const token = hash.access_token || localStorage.getItem('spotifyAccessToken'); // Check hash and localStorage
+    const token = hash.access_token || localStorage.getItem('spotifyAccessToken');
 
     if (token) {
       if (!localStorage.getItem('spotifyAccessToken')) {
@@ -51,34 +48,12 @@ const Homepage = () => {
     localStorage.removeItem('spotifyAccessToken');
     setUserProfile(null);
     setAccessToken(null);
-    window.location.href = '/'; // Redirect to the homepage
+    window.location.href = '/'; // Redirect to the welcome page
   };
-
-  const toggleDropdown = () => setShowDropdown(!showDropdown);
 
   return (
     <div className="homepage-container">
-      <Dashboard />
-      <header className="header">
-        {userProfile ? (
-          <div className="profile-section">
-            <img
-              src={userProfile.images?.[0]?.url || '/placeholder-image.png'}
-              alt="Profile"
-              className="profile-icon"
-              onClick={toggleDropdown}
-            />
-            {showDropdown && (
-              <div className="dropdown-menu">
-                <button onClick={handleLogout}>Logout</button>
-              </div>
-            )}
-          </div>
-        ) : (
-          !isLoading && <p>Please log in to see your profile.</p>
-        )}
-      </header>
-
+      <Dashboard userProfile={userProfile} handleLogout={handleLogout} />
       <main className="main-content">
         <h1 className="app-title">
           Welcome {userProfile ? `${userProfile.display_name}` : 'to Moodify!'}
@@ -89,29 +64,25 @@ const Homepage = () => {
         <div className="button-group">
           <button
             className="action-button"
-            onClick={() => {
-              setShowInput(true);
-              setShowContainer(false); // Hide container on "Mood" click
-            }}
+            onClick={() => alert('Moods functionality not implemented yet.')}
           >
             Moods
           </button>
           <button
             className="action-button"
-            onClick={() => alert('Artists is not implemented yet!')}
+            onClick={() => alert('Artists functionality not implemented yet.')}
           >
             Artists
           </button>
           <button
             className="action-button"
-            onClick={() => alert('Genres is not implemented yet!')}
+            onClick={() => alert('Genres functionality not implemented yet.')}
           >
             Genres
           </button>
         </div>
 
-        {showInput && <ArtistTracks />}
-        {showContainer && <Container accessToken={accessToken} />}
+        <Container accessToken={accessToken} />
       </main>
     </div>
   );
