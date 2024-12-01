@@ -13,7 +13,7 @@ const Homepage = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [showInput, setShowInput] = useState(false);
   const [showSongsByArtist, setShowSongsByArtist] = useState(false);
-  const [showSongsByGenre, setShowSongsByGenre] = useState(false); // New state for SongsByGenre
+  const [showSongsByGenre, setShowSongsByGenre] = useState(false); //genre
   const [showContainer, setShowContainer] = useState(true);
 
   useEffect(() => {
