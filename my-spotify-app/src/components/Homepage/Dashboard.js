@@ -40,7 +40,14 @@ function Dashboard() {
   
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">User Statistics</Nav.Link>
+          <Nav.Link
+            onClick={() => {
+              window.location.reload(); // Ensure the state resets to show only the container
+            }}
+          >
+            User Statistics
+          </Nav.Link>
+
             <Nav.Link eventKey={2} onClick={handleLogout}>
               {userProfile ? (
                 <img

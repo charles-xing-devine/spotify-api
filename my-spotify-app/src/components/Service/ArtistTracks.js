@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { fetchSongsByEmotion } from './SpotifyService';
+import SavePlaylist from '../SavePlaylist/SavePlaylist';
 import axios from 'axios';
 import './Dashboard.css';
 
@@ -89,13 +90,8 @@ const ArtistTracks = () => {
                 </div>
               ))}
             </div>
-<<<<<<< Updated upstream
-            {/* SavePlaylist component for saving fetched tracks */}
             <SavePlaylist tracks={tracks} token={token} userId={userId} />
-          </>
-=======
           </div>
->>>>>>> Stashed changes
         )}
       </div>
     </div>

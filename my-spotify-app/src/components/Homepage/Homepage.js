@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Dashboard from './Dashboard'; // Import Dashboard component
 import Container from './container';
-import UserStats from '../Service/UserStats';
 import ArtistTracks from '../Service/ArtistTracks';
-import { fetchUserProfile, getAuthUrl } from '../Auth/OAuth';
+import { fetchUserProfile } from '../Auth/OAuth';
 import './Homepage.css';
 
 const Homepage = () => {
@@ -11,6 +10,7 @@ const Homepage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showInput, setShowInput] = useState(false);
+  const [showContainer, setShowContainer] = useState(true); // New state to manage container visibility
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -23,14 +23,12 @@ const Homepage = () => {
     const token = hash.access_token || localStorage.getItem('spotifyAccessToken'); // Check hash and localStorage
 
     if (token) {
-      // Store the token in localStorage and clear the hash
       if (!localStorage.getItem('spotifyAccessToken')) {
         localStorage.setItem('spotifyAccessToken', token);
       }
       setAccessToken(token);
       window.location.hash = '';
 
-      // Fetch the user profile
       setIsLoading(true);
       fetchUserProfile(token)
         .then((profile) => {
@@ -61,12 +59,11 @@ const Homepage = () => {
   return (
     <div className="homepage-container">
       <Dashboard />
-      {/* Pass the accessToken to UserStats */}
       <header className="header">
         {userProfile ? (
           <div className="profile-section">
             <img
-              src={userProfile.images?.[0]?.url || '/placeholder-image.png'} // Default image if none exists
+              src={userProfile.images?.[0]?.url || '/placeholder-image.png'}
               alt="Profile"
               className="profile-icon"
               onClick={toggleDropdown}
@@ -92,7 +89,10 @@ const Homepage = () => {
         <div className="button-group">
           <button
             className="action-button"
-            onClick={() => setShowInput(true)}
+            onClick={() => {
+              setShowInput(true);
+              setShowContainer(false); // Hide container on "Mood" click
+            }}
           >
             Moods
           </button>
@@ -111,7 +111,7 @@ const Homepage = () => {
         </div>
 
         {showInput && <ArtistTracks />}
-        <Container accessToken={accessToken} />
+        {showContainer && <Container accessToken={accessToken} />}
       </main>
     </div>
   );
