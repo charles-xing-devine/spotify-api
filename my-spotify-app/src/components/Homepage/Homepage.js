@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Dashboard from './Dashboard'; // Import Dashboard component
+import Container from './container';
 import UserStats from '../Service/UserStats';
 import ArtistTracks from '../Service/ArtistTracks';
 import { fetchUserProfile, getAuthUrl } from '../Auth/OAuth';
@@ -43,6 +44,8 @@ const Homepage = () => {
           localStorage.removeItem('spotifyAccessToken');
           setAccessToken(null);
         });
+    } else {
+      console.error('No access token available.');
     }
   }, []);
 
@@ -59,7 +62,6 @@ const Homepage = () => {
     <div className="homepage-container">
       <Dashboard />
       {/* Pass the accessToken to UserStats */}
-      {accessToken && <UserStats accessToken={accessToken} />}
       <header className="header">
         {userProfile ? (
           <div className="profile-section">
@@ -76,7 +78,7 @@ const Homepage = () => {
             )}
           </div>
         ) : (
-          !isLoading
+          !isLoading && <p>Please log in to see your profile.</p>
         )}
       </header>
 
@@ -109,6 +111,7 @@ const Homepage = () => {
         </div>
 
         {showInput && <ArtistTracks />}
+        <Container accessToken={accessToken} />
       </main>
     </div>
   );
