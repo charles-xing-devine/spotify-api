@@ -116,3 +116,12 @@
   border-radius: 0 25px 25px 0;
   cursor: pointer;
 }
+section {
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
