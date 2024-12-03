@@ -86,15 +86,15 @@ export default function UserStats({ accessToken }) {
       <div className="row">
         {/* User Profile */}
         <div className="col-md-4">
-          <div className="card shadow-sm p-3 mb-4">
+          <div className="card shadow-sm p-3 mb-4 text-center">
             <h5 className="text-center">Your Profile</h5>
             {userProfile && (
-              <div className="text-center">
+              <div className="profile-container">
                 <img
                   src={userProfile.images?.[0]?.url || "/placeholder-image.png"}
                   alt={userProfile.display_name}
                   className="rounded-circle hover-card"
-                  style={{ width: "100px", height: "100px" }}
+                  style={{ width: "120px", height: "120px", objectFit: "cover" }}
                 />
                 <h6 className="fw-bold mt-3">{userProfile.display_name}</h6>
                 <p className="text-muted mb-1">{userProfile.email}</p>
@@ -103,6 +103,7 @@ export default function UserStats({ accessToken }) {
             )}
           </div>
         </div>
+
 
         {/* Top Tracks */}
         <div className="col-md-8">
