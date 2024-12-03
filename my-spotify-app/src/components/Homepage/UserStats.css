@@ -1,0 +1,12 @@
+/* Scale and shadow effect for clickable items */
+.hover-card {
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .hover-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: #f8f9fa; /* Light background for hover */
+    border-radius: 8px;
+  }
+  

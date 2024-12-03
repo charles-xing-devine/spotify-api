@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "./UserStats.css"; // Import custom CSS
 
 export default function UserStats({ accessToken }) {
   const [userProfile, setUserProfile] = useState(null);
@@ -20,31 +21,35 @@ export default function UserStats({ accessToken }) {
 
     const fetchData = async () => {
       try {
-        // Fetch user profile
         const profileResponse = await fetch("https://api.spotify.com/v1/me", {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         const profileData = await profileResponse.json();
 
-        // Fetch top tracks
-        const tracksResponse = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=5", {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+        const tracksResponse = await fetch(
+          "https://api.spotify.com/v1/me/top/tracks?limit=5",
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
         const tracksData = await tracksResponse.json();
 
-        // Fetch top artists
-        const artistsResponse = await fetch("https://api.spotify.com/v1/me/top/artists?limit=5", {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+        const artistsResponse = await fetch(
+          "https://api.spotify.com/v1/me/top/artists?limit=5",
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
         const artistsData = await artistsResponse.json();
 
-        // Fetch user's playlists
-        const playlistsResponse = await fetch("https://api.spotify.com/v1/me/playlists?limit=5", {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+        const playlistsResponse = await fetch(
+          "https://api.spotify.com/v1/me/playlists?limit=5",
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
         const playlistsData = await playlistsResponse.json();
 
-        // Aggregate top genres from artists
         const genres = {};
         artistsData.items.forEach((artist) => {
           artist.genres.forEach((genre) => {
@@ -56,7 +61,6 @@ export default function UserStats({ accessToken }) {
           .slice(0, 5)
           .map(([genre]) => genre);
 
-        // Set state with fetched data
         setUserProfile(profileData);
         setTopTracks(tracksData.items || []);
         setTopArtists(artistsData.items || []);
@@ -89,24 +93,30 @@ export default function UserStats({ accessToken }) {
                 <img
                   src={userProfile.images?.[0]?.url || "/placeholder-image.png"}
                   alt={userProfile.display_name}
-                  className="rounded-circle mb-3"
+                  className="rounded-circle hover-card"
                   style={{ width: "100px", height: "100px" }}
                 />
-                <h6 className="fw-bold">{userProfile.display_name}</h6>
-                <p>{userProfile.email}</p>
-                <p>{userProfile.followers.total} Followers</p>
+                <h6 className="fw-bold mt-3">{userProfile.display_name}</h6>
+                <p className="text-muted mb-1">{userProfile.email}</p>
+                <p className="text-muted">{userProfile.followers.total} Followers</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Top Tracks */}
-        <div className="col-md-4">
+        <div className="col-md-8">
           <div className="card shadow-sm p-3 mb-4">
             <h5 className="text-center">Your Top Tracks</h5>
             <ul className="list-unstyled">
               {topTracks.map((track) => (
-                <li key={track.id} className="d-flex align-items-center mb-3">
+                <a
+                  key={track.id}
+                  href={track.external_urls.spotify}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="d-flex align-items-center mb-3 hover-card text-decoration-none text-dark"
+                >
                   <img
                     src={track.album.images[0]?.url || "/placeholder-image.png"}
                     alt={track.name}
@@ -117,19 +127,28 @@ export default function UserStats({ accessToken }) {
                     <p className="mb-1 fw-bold">{track.name}</p>
                     <p className="mb-0 text-muted">by {track.artists[0].name}</p>
                   </div>
-                </li>
+                </a>
               ))}
             </ul>
           </div>
         </div>
+      </div>
 
+      {/* Top Artists and Playlists */}
+      <div className="row">
         {/* Top Artists */}
-        <div className="col-md-4">
+        <div className="col-md-6">
           <div className="card shadow-sm p-3 mb-4">
-            <h5 className="text-center">Top Artists</h5>
+            <h5 className="text-center">Your Top Artists</h5>
             <ul className="list-unstyled">
               {topArtists.map((artist) => (
-                <li key={artist.id} className="d-flex align-items-center mb-3">
+                <a
+                  key={artist.id}
+                  href={artist.external_urls.spotify}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="d-flex align-items-center mb-3 hover-card text-decoration-none text-dark"
+                >
                   <img
                     src={artist.images[0]?.url || "/placeholder-image.png"}
                     alt={artist.name}
@@ -140,22 +159,25 @@ export default function UserStats({ accessToken }) {
                     <p className="mb-1 fw-bold">{artist.name}</p>
                     <p className="mb-0 text-muted">{artist.genres.slice(0, 2).join(", ")}</p>
                   </div>
-                </li>
+                </a>
               ))}
             </ul>
           </div>
         </div>
-      </div>
 
-      {/* Interesting Stats */}
-      <div className="row">
-        {/* User's Playlists */}
+        {/* User Playlists */}
         <div className="col-md-6">
           <div className="card shadow-sm p-3 mb-4">
             <h5 className="text-center">Your Main Playlists</h5>
             <ul className="list-unstyled">
               {playlists.map((playlist) => (
-                <li key={playlist.id} className="d-flex align-items-center mb-3">
+                <a
+                  key={playlist.id}
+                  href={playlist.external_urls.spotify}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="d-flex align-items-center mb-3 hover-card text-decoration-none text-dark"
+                >
                   <img
                     src={playlist.images[0]?.url || "/placeholder-image.png"}
                     alt={playlist.name}
@@ -166,23 +188,7 @@ export default function UserStats({ accessToken }) {
                     <p className="mb-1 fw-bold">{playlist.name}</p>
                     <p className="mb-0 text-muted">{playlist.tracks.total} Tracks</p>
                   </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Top Genres */}
-        <div className="col-md-6">
-          <div className="card shadow-sm p-3 mb-4">
-            <h5 className="text-center">Your Top Genres</h5>
-            <ul className="list-unstyled">
-              {topGenres.map((genre, index) => (
-                <li key={index} className="d-flex align-items-center mb-3">
-                  <div>
-                    <p className="mb-1 fw-bold">{genre}</p>
-                  </div>
-                </li>
+                </a>
               ))}
             </ul>
           </div>
