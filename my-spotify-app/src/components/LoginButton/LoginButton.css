@@ -1,0 +1,26 @@
+/* LoginButton.css */
+
+/* Import Lato font */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+.btn-outline-spotify {
+  color: #fff; /* White text color */
+  background-color: #3EB489; /* Solid orange background */
+  border: none; /* Remove border */
+  width: 100px; /* Fixed width for circular button */
+  height: 100px; /* Fixed height for circular button */
+  font-size: 1.2em; /* Increased font size */
+  font-weight: bold;
+  font-family: 'Lato', sans-serif; /* Set Lato font */
+  border-radius: 50%; /* Make the button circular */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s ease; /* Smooth transition for scaling */
+}
+
+.btn-outline-spotify:hover {
+  transform: scale(1.1); /* Increase size on hover */
+}

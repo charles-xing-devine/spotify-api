@@ -1,0 +1,10 @@
+Flask==3.1.0
+transformers==4.46.3
+torch==2.5.1
+nltk==3.9.1
+requests==2.32.3
+tqdm==4.67.1
+huggingface-hub==0.26.2
+tokenizers==0.20.3
+safetensors==0.4.5
+numpy==2.0.2

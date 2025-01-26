@@ -1,22 +1,14 @@
 // App.js
-import React, { useEffect } from 'react';
-import { getTokenFromUrl } from './components/OAuth';
-import LoginButton from './components/LoginButton';
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import MainApp from './MainApp'; // Import the new MainApp component
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  useEffect(() => {
-    const token = getTokenFromUrl();
-    if (token) {
-      localStorage.setItem('token', token);
-      // Redirect or perform further actions after successful login
-    }
-  }, []);
-
   return (
-    <div>
-      <LoginButton />
-
-    </div>
+    <Router>
+      <MainApp />
+    </Router>
   );
 }
 

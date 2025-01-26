@@ -1,0 +1,40 @@
+/* SavePlaylist.css */
+
+/* Container for the playlist input and button */
+.save-playlist-container {
+    margin-top: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Align input and button horizontally */
+  .input-group {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  
+  /* Alert messages for success and error */
+  .alert {
+    margin-top: 15px;
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .alert-success {
+    background-color: #48bb78;
+    color: white;
+  }
+  
+  .alert-error {
+    background-color: #f56565;
+    color: white;
+  }
+  
